@@ -1,0 +1,35 @@
+os:
+  - linux
+language: node_js
+node_js:
+  - 5.10.1
+before_install:
+    - sudo apt-get install -y tree
+before_script:
+  - rm target bower node_modules -rf
+  - npm install -g gulp pug jshint bower
+  - npm install
+  - gulp
+script:
+  - tree target
+  - cd target
+  - git init
+  - git config user.name "Travis CI"
+  - git config user.email "fabio@naoimporta.com"
+  - git add -A
+  - git commit -m "Deploy to GitHub Pages"
+  - git push --force "https://${GH_TOKEN}@${GH_REF}" master:master
+notifications:
+  email:
+    - fabio@naoimporta.com
+env:
+  global:
+    - GH_REF: github.com/fabioluciano/fabioluciano.github.io.git
+    - secure: D7mgcmjlydpfWxTWrSN/VAqfstUx9YFyYr/emmnmZWAFxCcNPu5kqvruT0GEKFhbOyMqqNCEUR5af5X96nmYamhmKj1hcL39eOPv38bAO+weGmHVMdYddYjFmIPlMC5pz5pMal5zM54jOq4aNu9WljSMzYrwHfgU/9NPbqzHPTpzEHFpELmeF4+yi0rzX6oPz2rOfd5xjTnbHf5wX3lMmbwkrtfuEuEgpHuojt5RVrdawccHGBA56tKhKr37dlXdGPtseXyKmKdW4z9Zw5Ovj5r7/xwtOhKChA7Zmf62ucz9WwSpfE5+mZdal2UbbvhQmKcND9dEu1gkN5yWrDZex0/Rsad2daPI2h/DlKQEjIuGwGaHlqZoUfbl2LRGQMDdy10D0TmLevhFJ4HKnK1Ra757nI2bDJwqWCfS5jSDjNBgpXbL5Uih/H44hYkXg7ZHrmiI2+rV+5FraNeqXz5XrKuPByoh67sx2XhM21HRkknQatDCEHC3s76E9qyELNVRMZzbwMAVApXFzxPkw30GtAEcW59AjU31TLDg+QOl0bA3hdS/xVM0zznV3l/OOT3nLzqpOPcLXe/xyCUUmFySyCtY3ZYCE2u+TOCRIj9Za+8VsvGBXnc38CkvjGayYyHiP7F2b8nu1OyMjxEmIk85BhKOQCAtWBupIzg8BWkAwOk=
+    - CXX: g++-4.8
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
