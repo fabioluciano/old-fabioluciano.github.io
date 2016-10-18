@@ -3,6 +3,9 @@ os:
 language: node_js
 node_js:
   - 5.10.1
+branches:
+  only:
+  - development  
 before_install:
     - sudo apt-get install -y tree
 before_script:
